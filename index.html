@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efectos con JQuery </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            background-color: #f0f0f0;
+            padding: 10px;
+            cursor: pointer;
+        }
+        p, img {
+            margin: 20px 0;
+        }
+        #MainBox_ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #MainBox_ul li {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+        button {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="title">Título de la Página</h1>
+
+<p id="parrafo">Este es un párrafo que puede ser ocultado o mostrado.</p>
+
+<img id="myImage" src="https://via.placeholder.com/300" alt="Imagen de ejemplo">
+
+<ul id="MainBox_ul">
+    <li>Elemento 1</li>
+    <li>Elemento 2</li>
+    <li>Elemento 3</li>
+</ul>
+
+<button id="btn_toggleParrafo">Toggle Párrafo</button>
+<button id="btn_slideToggleImage">Slide Imagen</button>
+<button id="btn_AgregarElemento">Agregar a Lista</button>
+<button id="btn_cambiarColor">Alternar Color Título</button>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Ocultar/Mostrar párrafo con efecto de desvanecimiento
+        $("#btn_toggleParrafo").click(function(){
+            $("#parrafo").fadeToggle(1000);
+        });
+
+        // Deslizar hacia arriba/abajo la imagen
+        $("#btn_slideToggleImage").click(function(){
+            $("#myImage").slideToggle(1000);
+        });
+
+        // Agregar nuevo elemento a la lista con efecto de resaltado
+        var contadorItem = $("#MainBox_ul li").length + 1; // Contador para generar IDs únicos
+
+        $("#btn_AgregarElemento").click(function(){
+            var newItem = $("<li></li>").text("Nuevo Elemento " + contadorItem).css("background-color", "#ffffcc");
+            newItem.hide().appendTo("#MainBox_ul").slideDown(500).delay(500).queue(function(){
+                $(this).css("background-color", "").dequeue(); // Limpia el color de fondo después del resaltado
+            });
+            contadorItem++;
+        });
+
+        // Alternar color de fondo del título
+        var ListColor = ["#ffcccc", "#ccffcc", "#ccccff"]; // Colores disponibles
+        var indiceDeColor = 0; // Índice actual de color
+        $("#btn_cambiarColor").click(function(){
+            var titulo = $("#title");
+            indiceDeColor++;
+            if (indiceDeColor == 2){
+                indiceDeColor = 0;
+            }
+            titulo.animate($(this).css("background-color", ListColor[indiceDeColor]), 500);
+            
+            console.log(indiceDeColor);
+            
+            
+        });
+    });
+</script>
+
+</body>
+</html>
